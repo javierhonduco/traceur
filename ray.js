@@ -415,7 +415,7 @@ var hex_to_rgb = function(hex){
     return new RGB(r/100, g/100, b/100);
 }
 
-// 
+// Taken from https://gist.github.com/lrvick/2080648
 var rgb_to_hex = function(r, g, b){
     var bin = r*255 << 16 | g*255 << 8 | b*255;
     return (function(h){
@@ -423,7 +423,6 @@ var rgb_to_hex = function(r, g, b){
     })(bin.toString(16).toUpperCase())
 }
 
-// Taken from https://gist.github.com/lrvick/2080648
 var underscorify = function(string){
     return string.replace(' ', '_');
 }
