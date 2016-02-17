@@ -6,7 +6,7 @@
 (and depending on no external library.)
 
 #### inspiration
-an assignment I've done for Aalto university's Computer Graphics course and heavily inspired form a script from antirez called jsrt.
+an assignment I've done for Aalto university's Computer Graphics course and heavily inspired form am antirez's project called [jsrt](https://github.com/antirez/jsrt).
 
 #### future ideas
 * [ ] implement triangles from the cpp file
