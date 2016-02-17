@@ -15,7 +15,24 @@ var RaytracerUI = function(scene, element){
                 <span class="type">=> ${object.object.type}</>
             </div>`;
     }
+    // Add divider
+    element.innerHTML += `<div class="divider"></div>`
 
+    // Create the lights interface. Probably can be 
+    // merged with the objects code but let's see
+    for(var i=0; i<scene.lights.length; i++){
+        var current_light = scene.lights[i];
+        var selector = underscorify(current_light.name) + '_color';
+
+        element.innerHTML += `
+            <div class="ui-control">
+                <input type="color" id="${selector}" name="favcolor" value="#${rgb_to_hex(current_light.color.r, current_light.color.g, current_light.color.b)}">
+                <span class="name">${current_light.name}</span>
+                <span class="type">=> ${current_light.object.type}</>
+            </div>`;
+    }   
+
+    // Add events for both
     for(var j=0; j<scene.objects.length; j++){
         var object = scene.objects[j];
         var selector = underscorify(object.name) + '_color';
@@ -35,23 +52,6 @@ var RaytracerUI = function(scene, element){
             })(object) // ugh, js. Thx @frozenball :)
         );
     }
-
-    // Add divider
-    element.innerHTML += `<div class="divider"></div>`
-
-    // Create the lights interface. Probably can be 
-    // merged with the objects code but let's see
-    for(var i=0; i<scene.lights.length; i++){
-        var current_light = scene.lights[i];
-        var selector = underscorify(current_light.name) + '_color';
-
-        element.innerHTML += `
-            <div class="ui-control">
-                <input type="color" id="${selector}" name="favcolor" value="#${rgb_to_hex(current_light.color.r, current_light.color.g, current_light.color.b)}">
-                <span class="name">${current_light.name}</span>
-                <span class="type">=> ${current_light.object.type}</>
-            </div>`;
-    }   
 
     for(var j=0; j<scene.lights.length; j++){
         var current_light = scene.lights[j];
