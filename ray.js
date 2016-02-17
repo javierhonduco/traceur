@@ -13,7 +13,7 @@ var Raytracer = function(params){
     var SCREEN_WIDTH = params.screen_width || 800,
         SCREEN_HEIGHT = params.screen_height || 400,
         MAX_REFLECTION_RECURSION = 3,
-        ENABLE_REFLECTIONS = false,
+        ENABLE_REFLECTIONS = true,
         pixels = null;
 
     // Initialization of the canvas and return of the
