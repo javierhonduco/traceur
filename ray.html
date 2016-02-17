@@ -1,98 +1,98 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title></title>
-		<style>
-			html {
-				font-family: Arial;
-			}
-			#canvas {
-				float: left;
-				width: 800px;
-			}
-			.ui {
-				float: left;
-				width: 30%;
-			}
-			.ui-control {
-				width: 100%;
-				float: left;
-				margin-left: 20px;
-				margin-top: 10px;
-			}
-			.ui-control .name {
-				margin-left: 10px;
-			}
-		</style>
-	</head>
-	<body>
-		<canvas id="canvas" width="800" height="600"></canvas>
+    <head>
+        <title></title>
+        <style>
+            html {
+                font-family: Arial;
+            }
+            #canvas {
+                float: left;
+                width: 800px;
+            }
+            .ui {
+                float: left;
+                width: 30%;
+            }
+            .ui-control {
+                width: 100%;
+                float: left;
+                margin-left: 20px;
+                margin-top: 10px;
+            }
+            .ui-control .name {
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="800" height="600"></canvas>
 
-		<div class="ui">
-			<div class="ui-control">
-				<input type="range" id="z_scale" min="2" max="100" step="0.01" value="0">
-				<span>Z axis camera</span>
-			</div>
-			<div class="ui-control">
-			</div>
-		</div>
-	</body>
-	<script src="ray.js"></script>
-	<script>
-		var rt = new Raytracer({
-			screen_width: 800,
-			screen_height: 400
-		});
+        <div class="ui">
+            <div class="ui-control">
+                <input type="range" id="z_scale" min="2" max="100" step="0.01" value="0">
+                <span>Z axis camera</span>
+            </div>
+            <div class="ui-control">
+            </div>
+        </div>
+    </body>
+    <script src="ray.js"></script>
+    <script>
+        var rt = new Raytracer({
+            screen_width: 800,
+            screen_height: 400
+        });
 
-	    var scene = new Scene();
-	    var sphere1 = scene.add_object(
-	    	new Object("Sphere 1", new Sphere()));
-	    var sphere2 = scene.add_object(
-	    	new Object("Sphere 2", new Sphere()));
-	    var sphere3 = scene.add_object(
-	    	new Object("Sphere 3", new Sphere()));
-	    var light1 = scene.add_light(
-	    	new Object("Light 1", new Light()));
-	    var light2 = scene.add_light(
-	    	new Object("Light 2", new Light()));
-	    var light3 = scene.add_light(
-	    	new Object("Light 3", new Light()));
-	    sphere1.object.center.x = 1;
-	    sphere1.object.center.z = 0;
-	    sphere1.object.radius = 0.75;
+        var scene = new Scene();
+        var sphere1 = scene.add_object(
+            new Object("Sphere 1", new Sphere()));
+        var sphere2 = scene.add_object(
+            new Object("Sphere 2", new Sphere()));
+        var sphere3 = scene.add_object(
+            new Object("Sphere 3", new Sphere()));
+        var light1 = scene.add_light(
+            new Object("Light 1", new Light()));
+        var light2 = scene.add_light(
+            new Object("Light 2", new Light()));
+        var light3 = scene.add_light(
+            new Object("Light 3", new Light()));
+        sphere1.object.center.x = 1;
+        sphere1.object.center.z = 0;
+        sphere1.object.radius = 0.75;
 
-	    sphere2.object.center.x = 0;
-	    sphere2.object.radius = 0.5;
+        sphere2.object.center.x = 0;
+        sphere2.object.radius = 0.5;
 
-	    sphere3.object.center.x = -0.7;
-	    sphere3.object.radius = 0.5;
+        sphere3.object.center.x = -0.7;
+        sphere3.object.radius = 0.5;
 
-	    light1.object.center = new Vec3f(4, -1, -2);
-	    light2.object.center = new Vec3f(-1, -1, -2);
-	    light3.object.center = new Vec3f(1,-6, -2);
-	    light1.color = new RGB(1, 0.5, 0.1);
-	    light2.color = new RGB(0.3, 0.3, 0.3);
-	    light3.color = new RGB(0.4, 0.4, 0.4);
-	    sphere1.color = new RGB(0.6, 0.3, 1);
-	    sphere1.specularity = 1;
-	    sphere1.reflection = 0;
-	    sphere2.color = new RGB(0.3, 1, 0.3);
-	    sphere3.color = new RGB(1, 1, 1);
-	    sphere2.specularity = 0.5;
-	    sphere2.reflection = 0.1;
+        light1.object.center = new Vec3f(4, -1, -2);
+        light2.object.center = new Vec3f(-1, -1, -2);
+        light3.object.center = new Vec3f(1,-6, -2);
+        light1.color = new RGB(1, 0.5, 0.1);
+        light2.color = new RGB(0.3, 0.3, 0.3);
+        light3.color = new RGB(0.4, 0.4, 0.4);
+        sphere1.color = new RGB(0.6, 0.3, 1);
+        sphere1.specularity = 1;
+        sphere1.reflection = 0;
+        sphere2.color = new RGB(0.3, 1, 0.3);
+        sphere3.color = new RGB(1, 1, 1);
+        sphere2.specularity = 0.5;
+        sphere2.reflection = 0.1;
 
-	    rt.render(scene, new Vec3f(0, 0, -2))
+        rt.render(scene, new Vec3f(0, 0, -2))
 
-	    //new RaytracerUI(scene, '.ui');
-	</script>
-	<script>
-		// UI controls are here
-		var z_scale = document.getElementById('z_scale');
-		z_scale.addEventListener('input', function(){
-			var value = z_scale.value;
+        //new RaytracerUI(scene, '.ui');
+    </script>
+    <script>
+        // UI controls are here
+        var z_scale = document.getElementById('z_scale');
+        z_scale.addEventListener('input', function(){
+            var value = z_scale.value;
 
-			rt.render(scene, new Vec3f(0, 0, -value));
-			console.log('z_scale with value ', value);
-		});
-	</script>
+            rt.render(scene, new Vec3f(0, 0, -value));
+            console.log('z_scale with value ', value);
+        });
+    </script>
 </html>
