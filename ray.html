@@ -33,12 +33,12 @@
                 <input type="range" id="z_scale" min="2" max="100" step="0.01" value="0">
                 <span>Z axis camera</span>
             </div>
-            <div class="ui-control">
-            </div>
         </div>
     </body>
     <script src="ray.js"></script>
     <script>
+        'use strict';
+
         var rt = new Raytracer({
             screen_width: 800,
             screen_height: 400
@@ -69,7 +69,7 @@
 
         light1.object.center = new Vec3f(4, -1, -2);
         light2.object.center = new Vec3f(-1, -1, -2);
-        light3.object.center = new Vec3f(1,-6, -2);
+        light3.object.center = new Vec3f(1, -6, -2);
         light1.color = new RGB(1, 0.5, 0.1);
         light2.color = new RGB(0.3, 0.3, 0.3);
         light3.color = new RGB(0.4, 0.4, 0.4);
@@ -81,9 +81,9 @@
         sphere2.specularity = 0.5;
         sphere2.reflection = 0.1;
 
-        rt.render(scene, new Vec3f(0, 0, -2))
+        rt.render(scene, new Vec3f(0, 0, -2));
 
-        //new RaytracerUI(scene, '.ui');
+        new RaytracerUI(scene, '.ui');
     </script>
     <script>
         // UI controls are here

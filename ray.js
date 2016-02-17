@@ -3,24 +3,36 @@ var RaytracerUI = function(scene, element){
 
     for(var i=0; i<scene.objects.length; i++){
         var object = scene.objects[i];
+        var selector = underscorify(object.name) + '_color';
 
         element.innerHTML += `
             <div class="ui-control">
-                <input type="color" id="${underscorify(object.name)}_color" name="favcolor" value="#${rgb_to_hex(object.color.r, object.color.g, object.color.b)}">
+                <input type="color" id="${selector}" name="favcolor" value="#${rgb_to_hex(object.color.r, object.color.g, object.color.b)}">
                 <span class="name">${object.name}</span>
                 <span class="type">=> ${object.object.type}</>
             </div>`;
-
-        var picker = document.getElementById(underscorify(object.name) + '_color');
-        picker.addEventListener('input', function(){
-            var value = picker.value;
-            var rgb = hex_to_rgb(value);
-
-            object.object.color = rgb;
-            rt.render(scene, new Vec3f(0, 0, -2));
-            console.log('color of sphere_1 value ', rgb);
-        });
     }
+
+    for(var j=0; j<scene.objects.length; j++){
+        var object = scene.objects[j];
+        var selector = underscorify(object.name) + '_color';
+
+
+        document.getElementById(selector).addEventListener(
+            'input',
+            (function(object) {
+                return function(event){
+                    var value = this.value;
+                    var rgb = hex_to_rgb(value);
+
+                    object.color = rgb;
+                    rt.render(scene, new Vec3f(0, 0, -2));
+                    //log('color of ', object.name ,' value ', rgb);
+                }
+            })(object)
+        );
+    }
+
     
     for(var i=0; i<scene.lights.length; i++){
         var current_light = scene.lights[i];
@@ -55,10 +67,12 @@ var Raytracer = function(params){
             // arguments: scene and the point of space 
             // looking towards it
             render: function(scene, pov){
+                log('rendering');
                 // trace the scene
-                scene.trace_scene(pov)
+                scene.trace_scene(pov);
                 // set the pixels on the canvas
                 ctx.putImageData(pixels, 0, 0);
+                log('rendered');
             }
         }
     };
@@ -412,7 +426,7 @@ var hex_to_rgb = function(hex){
     g = parseInt(hex.substring(2, 4), 16);
     b = parseInt(hex.substring(4, 6), 16);
 
-    return new RGB(r/100, g/100, b/100);
+    return new RGB(r/255, g/255, b/255);
 }
 
 // Taken from https://gist.github.com/lrvick/2080648
