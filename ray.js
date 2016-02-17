@@ -8,8 +8,8 @@ var Raytracer = function(params){
     log('raytracer started');
 
     // Basic vars needed to start the raytracer
-    // pixels stores the 4*WIDTH*HEIGHT bidemensionl
-    // matrix needed to store the result image
+    // pixels stores the 4*WIDTH*HEIGHT matrix
+    // needed to store the result image
     var SCREEN_WIDTH = params.screen_width || 800,
         SCREEN_HEIGHT = params.screen_height || 400,
         MAX_REFLECTION_RECURSION = 3,
