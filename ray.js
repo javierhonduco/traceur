@@ -1,6 +1,9 @@
+// Some very basic ui for controlling parameters
+// in a realtime-ish fashion
 var RaytracerUI = function(scene, element){
     var element = document.querySelector(element);
 
+    // Create the objects interface
     for(var i=0; i<scene.objects.length; i++){
         var object = scene.objects[i];
         var selector = underscorify(object.name) + '_color';
@@ -29,14 +32,48 @@ var RaytracerUI = function(scene, element){
                     rt.render(scene, new Vec3f(0, 0, -2));
                     //log('color of ', object.name ,' value ', rgb);
                 }
-            })(object)
+            })(object) // ugh, js. Thx @frozenball :)
         );
     }
 
-    
+    // Add divider
+    element.innerHTML += `<div class="divider"></div>`
+
+    // Create the lights interface. Probably can be 
+    // merged with the objects code but let's see
     for(var i=0; i<scene.lights.length; i++){
         var current_light = scene.lights[i];
+        var selector = underscorify(current_light.name) + '_color';
+
+        element.innerHTML += `
+            <div class="ui-control">
+                <input type="color" id="${selector}" name="favcolor" value="#${rgb_to_hex(current_light.color.r, current_light.color.g, current_light.color.b)}">
+                <span class="name">${current_light.name}</span>
+                <span class="type">=> ${current_light.object.type}</>
+            </div>`;
     }   
+
+    for(var j=0; j<scene.lights.length; j++){
+        var current_light = scene.lights[j];
+        var selector = underscorify(current_light.name) + '_color';
+
+
+        document.getElementById(selector).addEventListener(
+            'input',
+            (function(current_light) {
+                return function(event){
+                    var value = this.value;
+                    var rgb = hex_to_rgb(value);
+
+                    current_light.color = rgb;
+                    rt.render(scene, new Vec3f(0, 0, -2));
+                    //log('color of ', current_light.name ,' value ', rgb);
+                }
+            })(current_light) // ugh, js. Thx @frozenball :)
+        );
+    }
+
+
 }
 
 var Raytracer = function(params){
@@ -376,6 +413,7 @@ var Ray = function(){
 
 // Light ray.
 var Light = function(){
+    this.type = 'light';
     this.center = new Vec3f();
 }
 
