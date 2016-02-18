@@ -88,6 +88,32 @@ var Raytracer = function(params){
             type: where,
             dist: distance
         }
+        // Alternative implementation that misses
+        // a bit to work correctly and it's probably
+        // more efficient
+        /*
+            var A = ray.direction.x*ray.direction.x+ray.direction.y*ray.direction.y+ray.direction.z*ray.direction.z;
+            var B = -2 * (ray.direction.x*x + ray.direction.y*y + ray.direction.z*z);
+            var C = (x*x+y*y+z*z) - Math.sqrt(this.radius);
+            var radical = B*B - 4*A*C;
+
+            // optimization
+            if(radical<0){
+                return false;
+            }
+
+            radical = Math.sqrt(radical);
+
+            var t_m = (-B - radical)/(2*A);
+            var t_p = (-B + radical)/(2*A);
+
+            var where = 1;
+
+            return {
+                type: where,
+                dist: t_p
+            }
+        */
     }
     
     // Here is the real interesting part AKA where 
