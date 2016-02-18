@@ -14,7 +14,9 @@ var Raytracer = function(params){
         SCREEN_HEIGHT = params.screen_height || 400,
         MAX_REFLECTION_RECURSION = 3,
         ENABLE_REFLECTIONS = (params.enable_reflections===undefined)? true: params.enable_reflections, // ugh
+        ENABLE_SUPERSAMPLING = (params.enable_supersampling===undefined)? false: params.enable_supersampling,
         pixels = null;
+
 
     // Initialization of the canvas and return of the
     // rendering function that is offered as main public
@@ -56,6 +58,7 @@ var Raytracer = function(params){
     Plane.prototype.normal_to_point = function(x, y, z){
         return this.normal;
     };
+
 
     // Computes normal to point of an sphere
     Sphere.prototype.normal_to_point = function(x, y, z){
@@ -318,6 +321,13 @@ var Raytracer = function(params){
         var ray = new Ray();
         ray.origin = pov;
 
+        /*
+        if(ENABLE_SUPERSAMPLING){
+            SCREEN_WIDTH *= 2;
+            SCREEN_HEIGHT *= 2;
+        }*/
+
+
         for(var x=0; x<SCREEN_WIDTH; x++){
             for(var y=0; y<SCREEN_HEIGHT; y++){
                 ray.direction = new Vec3f(
@@ -336,7 +346,40 @@ var Raytracer = function(params){
                 pixels.data[offset+3] = 255; // alpha transparency
             }
         }
+
+        /*if(ENABLE_SUPERSAMPLING){
+            this.supersampling();
+        }
+        */
     }
+
+    // WIP. Bruteforce antialising using supersampling
+    // hardcoded supersampling constant
+    /* 
+    Scene.prototype.supersampling = function(){
+        // Copy pixels to new data structure
+        var copied_pixels = [];
+
+        for(var i=0; i<pixels.data.length; i++){
+            copied_pixels.push(pixels.data[i]);
+        }
+
+        // Proceed with the supersampling
+
+        for(var i=0; i<SCREEN_WIDTH/2 + SCREEN_HEIGHT/2; i++){
+            pixels.data[i] = copied_pixels[i] + 
+        }
+
+        // 0 1 2 3
+        // 4 5 6 7 
+        // 8 9 10 11
+        // 12 13 14 15
+
+        // =>
+
+        // each new row += width*2 offset
+    }
+    */
 
     // Helper function to log info/ debug messages
     function log(message){
@@ -412,8 +455,19 @@ var Sphere = function(radius){
 // Plane
 var Plane = function(normal, offset){
     this.type = 'plane';
-    this.offset = offset || -10020;
+    this.offset = offset || 1;
     this.normal = normal || new Vec3f();
+}
+
+// Triangle
+var Triangle = function(){
+    this.type = 'triangle';
+
+    this.vertices = [
+        new Vec3f(),
+        new Vec3f(),
+        new Vec3f()
+    ];
 }
 
 // Scene composed of objects and lights
