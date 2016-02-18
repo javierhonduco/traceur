@@ -36,7 +36,28 @@ var Raytracer = function(params){
         }
     };
 
-    // Computes 
+    // Plane intersection
+    Plane.prototype.intersect = function(ray){
+        var Ro = ray.origin;
+        var Rd = ray.direction;
+
+        var D = this.offset;
+        var n = this.normal;
+
+        var t = (D-dot(n, Ro)) / dot(n, Rd);
+
+        return {
+            type: t>0? 1:0,
+            dist: t
+        }
+    }
+
+    // Computes normal to point of a plane
+    Plane.prototype.normal_to_point = function(x, y, z){
+        return this.normal;
+    };
+
+    // Computes normal to point of an sphere
     Sphere.prototype.normal_to_point = function(x, y, z){
         x -= this.center.x;
         y -= this.center.y;
@@ -376,7 +397,7 @@ var RGB = function(r, g, b){
 var Object = function(name, object){
     this.name = name;
     this.object = object;
-    this.color = new RGB();
+    this.color = new RGB(1, 1, 1);
     this.specular = 0;
     this.reflect = 0;
 }
@@ -386,6 +407,13 @@ var Sphere = function(radius){
     this.type = 'sphere';
     this.center = new Vec3f();
     this.radius = radius || 1.0;
+}
+
+// Plane
+var Plane = function(normal, offset){
+    this.type = 'plane';
+    this.offset = offset || -10020;
+    this.normal = normal || new Vec3f();
 }
 
 // Scene composed of objects and lights
@@ -427,6 +455,10 @@ var underscorify = function(string){
     return string.replace(' ', '_');
 }
 
+// dot product
+var dot = function(v1, v2){
+    return (v1.x*v2.x + v1.y*v2.y + v1.z*v2.z);
+}
 
 // Some very basic ui for controlling parameters
 // in a realtime-ish fashion
